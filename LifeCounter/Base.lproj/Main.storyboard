@@ -55,6 +55,7 @@
                                                                     </button>
                                                                 </subviews>
                                                                 <constraints>
+                                                                    <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="50" id="rKa-WB-E6s"/>
                                                                     <constraint firstAttribute="height" constant="50" id="txG-Rh-rIY"/>
                                                                 </constraints>
                                                             </stackView>
@@ -68,6 +69,9 @@
                                                                     </button>
                                                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="MOF-hP-Grj">
                                                                         <rect key="frame" x="152" y="0.0" width="152" height="50"/>
+                                                                        <constraints>
+                                                                            <constraint firstAttribute="height" constant="50" id="lCy-w1-jR8"/>
+                                                                        </constraints>
                                                                         <state key="normal" title="Button"/>
                                                                         <buttonConfiguration key="configuration" style="gray" title="-5"/>
                                                                     </button>
