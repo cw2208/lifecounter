@@ -9,11 +9,23 @@ import UIKit
 
 class ViewController: UIViewController {
 
+    @IBOutlet weak var playersStack: UIStackView!
+
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view.
     }
 
+    override func viewWillTransition(
+        to size: CGSize,
+        with coordinator: UIViewControllerTransitionCoordinator
+    ) {
+        super.viewWillTransition(to: size, with: coordinator)
 
+        coordinator.animate(alongsideTransition: { _ in
+            self.playersStack.axis =
+                size.width > size.height ? .horizontal : .vertical
+        })
+    }
 }
+
 
