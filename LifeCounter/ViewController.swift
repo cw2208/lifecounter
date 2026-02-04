@@ -19,6 +19,7 @@ class ViewController: UIViewController {
     var players: [Player] = []
     var history: [String] = []
     var gameStarted = false
+    var showingGameOver = false
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -52,6 +53,7 @@ class ViewController: UIViewController {
         ]
         history = []
         gameStarted = false
+        showingGameOver = false
         addPlayerButton.isEnabled = true
         rebuildUI()
     }
@@ -131,12 +133,18 @@ class ViewController: UIViewController {
     }
 
     func checkGameOver() {
-        let aliveCount = players.filter { $0.life >= 0 }.count
+        if showingGameOver { return }
+
+        let aliveCount = players.filter { $0.life > 0 }.count
+
         if gameStarted && aliveCount <= 1 {
-            let alert = UIAlertController(title: "Game over!", message: nil, preferredStyle: .alert)
-            alert.addAction(UIAlertAction(title: "OK", style: .default) { _ in
-                self.resetGame()
+            showingGameOver = true
+
+            let alert = UIAlertController(title: "Game over!", message: "Reset game?", preferredStyle: .alert)
+            alert.addAction(UIAlertAction(title: "OK", style: .default) { [weak self] _ in
+                self?.resetGame()
             })
+
             present(alert, animated: true)
         }
     }
@@ -217,3 +225,4 @@ class HistoryViewController: UIViewController, UITableViewDataSource {
         return cell
     }
 }
+
