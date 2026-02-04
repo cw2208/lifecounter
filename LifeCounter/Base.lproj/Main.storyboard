@@ -24,15 +24,15 @@
                                         <rect key="frame" x="0.0" y="0.0" width="440" height="710"/>
                                         <subviews>
                                             <stackView opaque="NO" contentMode="scaleToFill" ambiguous="YES" axis="vertical" spacing="16" translatesAutoresizingMaskIntoConstraints="NO" id="SG2-oW-2IF">
-                                                <rect key="frame" x="149" y="314.66666666666674" width="141.33333333333337" height="34.333333333333314"/>
+                                                <rect key="frame" x="0.0" y="0.0" width="440" height="710"/>
                                             </stackView>
                                         </subviews>
                                         <constraints>
-                                            <constraint firstAttribute="trailing" secondItem="SG2-oW-2IF" secondAttribute="trailing" constant="149.66666666666674" id="6EG-Xn-D9V"/>
-                                            <constraint firstItem="SG2-oW-2IF" firstAttribute="top" secondItem="dRp-O9-Plj" secondAttribute="top" constant="314.66666666666674" id="CGp-HV-KCl"/>
-                                            <constraint firstAttribute="bottom" secondItem="SG2-oW-2IF" secondAttribute="bottom" constant="314.66666666666669" id="gjV-6O-Hvf"/>
-                                            <constraint firstItem="SG2-oW-2IF" firstAttribute="leading" secondItem="dRp-O9-Plj" secondAttribute="leading" constant="149" id="l2F-P0-VZP"/>
-                                            <constraint firstItem="SG2-oW-2IF" firstAttribute="width" secondItem="dRp-O9-Plj" secondAttribute="width" multiplier="0.321212" id="wFE-Oj-wwA"/>
+                                            <constraint firstItem="SG2-oW-2IF" firstAttribute="width" secondItem="dRp-O9-Plj" secondAttribute="width" id="4jd-oq-Ub8"/>
+                                            <constraint firstAttribute="trailing" secondItem="SG2-oW-2IF" secondAttribute="trailing" id="ORe-wY-JAB"/>
+                                            <constraint firstAttribute="bottom" secondItem="SG2-oW-2IF" secondAttribute="bottom" id="XEr-5y-ldS"/>
+                                            <constraint firstItem="SG2-oW-2IF" firstAttribute="leading" secondItem="dRp-O9-Plj" secondAttribute="leading" id="dmv-y8-A7q"/>
+                                            <constraint firstItem="SG2-oW-2IF" firstAttribute="top" secondItem="dRp-O9-Plj" secondAttribute="top" id="k7A-j8-wta"/>
                                         </constraints>
                                         <viewLayoutGuide key="contentLayoutGuide" id="n8i-KR-IVH"/>
                                         <viewLayoutGuide key="frameLayoutGuide" id="xlS-7v-pnf"/>
