@@ -12,6 +12,7 @@ class ViewController: UIViewController {
     @IBOutlet weak var addPlayerButton: UIButton!
 
     struct Player {
+        var name: String
         var life: Int
     }
 
@@ -21,16 +22,14 @@ class ViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        players = [Player(life: 20), Player(life: 20), Player(life: 20), Player(life: 20)]
-        rebuildUI()
+        resetGame()
     }
 
     @IBAction func addPlayerTapped(_ sender: UIButton) {
         if gameStarted { return }
         if players.count == 8 { return }
 
-        players.append(Player(life: 20))
+        players.append(Player(name: "Player \(players.count + 1)", life: 20))
         rebuildUI()
     }
 
@@ -40,13 +39,29 @@ class ViewController: UIViewController {
         navigationController?.pushViewController(vc, animated: true)
     }
 
+    @IBAction func resetTapped(_ sender: UIButton) {
+        resetGame()
+    }
+
+    func resetGame() {
+        players = [
+            Player(name: "Player 1", life: 20),
+            Player(name: "Player 2", life: 20),
+            Player(name: "Player 3", life: 20),
+            Player(name: "Player 4", life: 20)
+        ]
+        history = []
+        gameStarted = false
+        addPlayerButton.isEnabled = true
+        rebuildUI()
+    }
+
     func rebuildUI() {
         for v in playersStack.arrangedSubviews {
             playersStack.removeArrangedSubview(v)
             v.removeFromSuperview()
         }
 
-        // add blocks for each player
         for i in 0..<players.count {
             let block = makePlayerBlock(index: i)
             playersStack.addArrangedSubview(block)
@@ -58,9 +73,10 @@ class ViewController: UIViewController {
         vstack.axis = .vertical
         vstack.spacing = 8
 
-        let name = UILabel()
-        name.textAlignment = .center
-        name.text = "Player \(index + 1)"
+        let nameButton = UIButton(type: .system)
+        nameButton.setTitle(players[index].name, for: .normal)
+        nameButton.tag = index
+        nameButton.addTarget(self, action: #selector(nameTapped(_:)), for: .touchUpInside)
 
         let lifeLabel = UILabel()
         lifeLabel.textAlignment = .center
@@ -93,7 +109,7 @@ class ViewController: UIViewController {
         hstack.addArrangedSubview(amountField)
         hstack.addArrangedSubview(plus)
 
-        vstack.addArrangedSubview(name)
+        vstack.addArrangedSubview(nameButton)
         vstack.addArrangedSubview(lifeLabel)
         vstack.addArrangedSubview(hstack)
 
@@ -114,6 +130,17 @@ class ViewController: UIViewController {
         }
     }
 
+    func checkGameOver() {
+        let aliveCount = players.filter { $0.life >= 0 }.count
+        if gameStarted && aliveCount <= 1 {
+            let alert = UIAlertController(title: "Game over!", message: nil, preferredStyle: .alert)
+            alert.addAction(UIAlertAction(title: "OK", style: .default) { _ in
+                self.resetGame()
+            })
+            present(alert, animated: true)
+        }
+    }
+
     @objc func plusTapped(_ sender: UIButton) {
         startGameIfNeeded()
 
@@ -121,8 +148,9 @@ class ViewController: UIViewController {
         let amt = getAmount(for: i)
 
         players[i].life += amt
-        history.append("Player \(i + 1) gained \(amt) life.")
+        history.append("\(players[i].name) gained \(amt) life.")
         rebuildUI()
+        checkGameOver()
     }
 
     @objc func minusTapped(_ sender: UIButton) {
@@ -132,8 +160,26 @@ class ViewController: UIViewController {
         let amt = getAmount(for: i)
 
         players[i].life -= amt
-        history.append("Player \(i + 1) lost \(amt) life.")
+        history.append("\(players[i].name) lost \(amt) life.")
         rebuildUI()
+        checkGameOver()
+    }
+
+    @objc func nameTapped(_ sender: UIButton) {
+        let i = sender.tag
+
+        let alert = UIAlertController(title: "Rename Player", message: nil, preferredStyle: .alert)
+        alert.addTextField { tf in
+            tf.text = self.players[i].name
+        }
+        alert.addAction(UIAlertAction(title: "Cancel", style: .cancel))
+        alert.addAction(UIAlertAction(title: "OK", style: .default) { _ in
+            let newName = alert.textFields?.first?.text?.trimmingCharacters(in: .whitespacesAndNewlines) ?? ""
+            if newName.isEmpty { return }
+            self.players[i].name = newName
+            self.rebuildUI()
+        })
+        present(alert, animated: true)
     }
 }
 
@@ -161,7 +207,7 @@ class HistoryViewController: UIViewController, UITableViewDataSource {
     }
 
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return items.count
+        items.count
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -171,4 +217,3 @@ class HistoryViewController: UIViewController, UITableViewDataSource {
         return cell
     }
 }
-
